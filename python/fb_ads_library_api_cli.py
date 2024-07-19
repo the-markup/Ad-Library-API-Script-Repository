@@ -30,10 +30,11 @@ def get_parser():
         required=True,
         type=validate_fields_param,
     )
-    parser.add_argument("-s", "--search-term", help="The term you want to search for")
+    parser.add_argument("-s", "--search-terms", help="The terms you want to search for")
     parser.add_argument(
         "-c",
         "--country",
+        default="US",
         help="Comma-separated country code (no spaces)",
         required=True,
         type=validate_country_param,
@@ -43,7 +44,16 @@ def get_parser():
     )
     parser.add_argument(
         "--ad-active-status",
+        default="ALL",
         help="Filter by the current status of the ads at the moment the script runs",
+    )
+    parser.add_argument(
+        "--ad-type", help="Return this type of ad, can be ALL (default), CREDIT_ADS, EMPLOYMENT_ADS, HOUSING_ADS, POLITICAL_AND_ISSUE_ADS",
+        default="ALL",
+    )
+    parser.add_argument(
+        "--media-type", help="Return ads that contain this type of media, can be ALL (default), IMAGE, MEME, VIDEO, NONE",
+        default="ALL",
     )
     parser.add_argument(
         "--after-date", help="Only return ads that started delivery after this date"
@@ -107,23 +117,27 @@ def main():
     parser = get_parser()
     opts = parser.parse_args()
 
-    if not opts.search_term and not opts.search_page_ids:
-        print("At least one must be set: --search-term, --search-page-ids")
+    if not opts.search_terms and not opts.search_page_ids:
+        print("At least one must be set: --search-terms, --search-page-ids")
         sys.exit(1)
 
-    if not opts.search_term:
-        search_term = "."
+    if not opts.search_terms:
+        search_terms = "."
     else:
-        search_term = opts.search_term
+        search_terms = opts.search_terms
     api = FbAdsLibraryTraversal(
-        opts.access_token, opts.fields, search_term, opts.country
+        opts.access_token, opts.fields, search_terms, opts.country
     )
     if opts.search_page_ids:
         api.search_page_ids = opts.search_page_ids
     if opts.ad_active_status:
         api.ad_active_status = opts.ad_active_status
+    if opts.ad_type:
+        api.ad_type = opts.ad_type
+    if opts.media_type:
+        api.media_type = opts.media_type
     if opts.batch_size:
-        api.page_limit = opts.batch_size
+        api.limit = opts.batch_size
     if opts.retry_limit:
         api.retry_limit = opts.retry_limit
     if opts.after_date:
