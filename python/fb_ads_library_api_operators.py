@@ -9,6 +9,7 @@
 import datetime
 import json
 from collections import Counter
+import time
 
 
 def get_operators():
@@ -70,7 +71,11 @@ def save_to_csv(generator_ad_archives, args, fields, is_verbose=False):
     delimiter = ","
     total_count = 0
     output = fields + "\n"
-    output_file = args[0]
+    # timestamp the output file so we don't inadvertently overwrite an old file
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    output_file = timestamp + "-" + args[0]
+    if not output_file.endswith(".csv"):
+        output_file += ".csv"
 
     for ad_archives in generator_ad_archives:
         total_count += len(ad_archives)
