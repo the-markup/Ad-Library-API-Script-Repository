@@ -80,12 +80,12 @@ def save_to_csv(generator_ad_archives, args, fields, is_verbose=False):
             for field in list(fields.split(delimiter)):
                 if field in ad_archive:
                     value = ad_archive[field]
-                    if (type(value) == list and type(value[0]) == dict) or type(
-                        value
-                    ) == dict:
+                    if (type(value) is list and type(value[0]) is dict) or type(value) is dict:
                         value = json.dumps(value)
-                    elif type(value) == list:
+                    elif type(value) is list:
                         value = delimiter.join(value)
+                    elif type(value) is int:
+                        value = str(value)
                     output += (
                         '"' + value.replace("\n", "").replace('"', "") + '"' + delimiter
                     )
