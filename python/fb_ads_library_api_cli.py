@@ -13,7 +13,7 @@ from fb_ads_library_api_operators import get_operators, save_to_csv
 from fb_ads_library_api_utils import get_country_code, is_valid_fields
 
 
-def get_parser():
+def argument_parser():
     parser = argparse.ArgumentParser(
         description="The Facebook Ads Library API CLI Utility"
     )
@@ -114,7 +114,7 @@ def validate_fields_param(fields_input):
 
 
 def main():
-    parser = get_parser()
+    parser = argument_parser()
     opts = parser.parse_args()
 
     if not opts.search_terms and not opts.search_page_ids:
