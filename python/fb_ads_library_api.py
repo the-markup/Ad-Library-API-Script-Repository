@@ -9,6 +9,7 @@
 import json
 import re
 from datetime import datetime
+from json.decoder import JSONDecodeError
 
 import requests
 
@@ -92,8 +93,20 @@ class FbAdsLibraryTraversal:
         start_time_cutoff_after = datetime.strptime(after_date, "%Y-%m-%d").timestamp()
 
         while next_page_url is not None:
+            print(">> requesting page at " + next_page_url)
             response = requests.get(next_page_url)
             response_data = json.loads(response.text)
+            print(">> got response!")
+
+            # get rate limiting details from headers
+            usage = response.headers.get("x-business-use-case-usage")
+            if usage:
+                try:
+                    print(json.loads(usage))
+                except JSONDecodeError as err:
+                    print(">> error trying to get rate limit details from headers!")
+                    print(err)
+
             if "error" in response_data:
                 if next_page_url == last_error_url:
                     # failed again
