@@ -48,11 +48,13 @@ def argument_parser():
         help="Filter by the current status of the ads at the moment the script runs",
     )
     parser.add_argument(
-        "--ad-type", help="Return this type of ad, can be ALL (default), CREDIT_ADS, EMPLOYMENT_ADS, HOUSING_ADS, POLITICAL_AND_ISSUE_ADS",
+        "--ad-type",
+        help="Return this type of ad, can be ALL (default), CREDIT_ADS, EMPLOYMENT_ADS, HOUSING_ADS, POLITICAL_AND_ISSUE_ADS",
         default="ALL",
     )
     parser.add_argument(
-        "--media-type", help="Return ads that contain this type of media, can be ALL (default), IMAGE, MEME, VIDEO, NONE",
+        "--media-type",
+        help="Return ads that contain this type of media, can be ALL (default), IMAGE, MEME, VIDEO, NONE",
         default="ALL",
     )
     parser.add_argument(
