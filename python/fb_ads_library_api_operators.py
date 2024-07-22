@@ -27,8 +27,16 @@ def get_operators():
         "start_time_trending": count_start_time_trending,
     }
 
+def output_file_path(keyword, output_path, file_extension):
+    # timestamp the output file so we don't inadvertently overwrite an old file
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    output_filename = timestamp + "-" + keyword
+    if not output_filename.endswith(file_extension):
+        output_filename += file_extension
+    return f"{output_path}/{output_filename}"
 
-def count_ads(generator_ad_archives, args, is_verbose=False):
+
+def count_ads(generator_ad_archives, args, output_path, is_verbose=False):
     """
     Count how many ad_archives match your query
     """
@@ -40,14 +48,19 @@ def count_ads(generator_ad_archives, args, is_verbose=False):
     print(f"Total number of ads match the query: {count}")
 
 
-def save_to_file(generator_ad_archives, args, is_verbose=False):
+def save_to_file(generator_ad_archives, args, output_path, is_verbose=False):
     """
     Save all retrieved ad_archives to the file; each ad_archive will be
     stored in JSON format in a single line;
+    Accept one parameter:
+        output_keyword: this keyword will be used to tag written files
     """
     if len(args) != 1:
-        raise Exception("save action requires exact 1 param: output file")
-    with open(args[0], "w+") as file:
+        raise Exception("save_to_file action takes 1 argument: output_keyword")
+
+    output_path = output_file_path(args[0], output_path, ".json")
+
+    with open(output_path, "w+") as file:
         count = 0
         for ad_archives in generator_ad_archives:
             for data in ad_archives:
@@ -60,22 +73,21 @@ def save_to_file(generator_ad_archives, args, is_verbose=False):
     print("Total number of ads wrote: %d" % count)
 
 
-def save_to_csv(generator_ad_archives, args, fields, is_verbose=False):
+def save_to_csv(generator_ad_archives, args, output_path, fields, is_verbose=False):
     """
     Save all retrieved ad_archives to the output file. Each ad_archive will be
     stored as a row in the CSV
+    Accept one parameter:
+        output_keyword: this keyword will be used to tag written files
     """
     if len(args) != 1:
-        raise Exception("save_to_csv action takes 1 argument: output_file")
+        raise Exception("save_to_csv action takes 1 argument: output_keyword")
 
     delimiter = ","
     total_count = 0
     output = fields + "\n"
-    # timestamp the output file so we don't inadvertently overwrite an old file
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    output_file = timestamp + "-" + args[0]
-    if not output_file.endswith(".csv"):
-        output_file += ".csv"
+
+    output_path = output_file_path(args[0], output_path, ".csv")
 
     for ad_archives in generator_ad_archives:
         total_count += len(ad_archives)
@@ -98,23 +110,24 @@ def save_to_csv(generator_ad_archives, args, fields, is_verbose=False):
                     output += delimiter
             output = output.rstrip(",") + "\n"
 
-    with open(output_file, "w") as csvfile:
+    with open(output_path, "w") as csvfile:
         csvfile.write(output)
 
-    print("Successfully wrote data to file: %s" % output_file)
+    print("Successfully wrote data to file: %s" % output_path)
 
 
-def count_start_time_trending(generator_ad_archives, args, is_verbose=False):
+def count_start_time_trending(generator_ad_archives, args, output_path, is_verbose=False):
     """
     output the count trending of ads by start date;
-    Accept one parameters:
-        output_file: path to write the csv
+    Accept one parameter:
+        output_keyword: this keyword will be used to tag written files
     """
     if len(args) != 1:
-        raise Exception("start_time_trending action takes 1 arguments: output_file")
+        raise Exception("start_time_trending action takes 1 argument: output_keyword")
+
+    output_path = output_file_path(args[0], output_path, ".csv")
 
     total_count = 0
-    output_file = args[0]
     date_to_count = Counter({})
     for ad_archives in generator_ad_archives:
         total_count += len(ad_archives)
@@ -130,9 +143,9 @@ def count_start_time_trending(generator_ad_archives, args, is_verbose=False):
         )
         date_to_count.update(start_dates)
 
-    with open(output_file, "w") as csvfile:
+    with open(output_path, "w") as csvfile:
         csvfile.write("date, count\n")
         for date in date_to_count.keys():
             csvfile.write("{}, {}\n".format(date, date_to_count[date]))
 
-    print("Successfully wrote data to file: %s" % output_file)
+    print("Successfully wrote data to file: %s" % output_path)

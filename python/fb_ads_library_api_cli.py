@@ -6,7 +6,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
+import os
+import subprocess
 import sys
+import time
 
 from fb_ads_library_api import FbAdsLibraryTraversal
 from fb_ads_library_api_operators import get_operators, save_to_csv
@@ -115,6 +118,18 @@ def validate_fields_param(fields_input):
         )
 
 
+# from https://stackoverflow.com/a/53675112
+def git_root_directory():
+    return (
+        subprocess.Popen(
+            ["git", "rev-parse", "--show-toplevel"], stdout=subprocess.PIPE
+        )
+        .communicate()[0]
+        .rstrip()
+        .decode("utf-8")
+    )
+
+
 def main():
     parser = argument_parser()
     opts = parser.parse_args()
@@ -144,15 +159,29 @@ def main():
         api.retry_limit = opts.retry_limit
     if opts.after_date:
         api.after_date = opts.after_date
+
+    # where to save data
+    root_directory = git_root_directory()
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    output_path = f"{root_directory}/output/{timestamp}"
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    # get the ad archives data
     generator_ad_archives = api.generate_ad_archives()
+
     if opts.action in get_operators():
         if opts.action == "save_to_csv":
             save_to_csv(
-                generator_ad_archives, opts.args, opts.fields, is_verbose=opts.verbose
+                generator_ad_archives,
+                opts.args,
+                output_path,
+                opts.fields,
+                is_verbose=opts.verbose,
             )
         else:
             get_operators()[opts.action](
-                generator_ad_archives, opts.args, is_verbose=opts.verbose
+                generator_ad_archives, opts.args, output_path, is_verbose=opts.verbose
             )
     else:
         print("Invalid 'action' value: %s" % opts.action)
