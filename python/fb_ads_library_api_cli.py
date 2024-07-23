@@ -11,6 +11,7 @@ import subprocess
 import sys
 import time
 
+from dotenv import load_dotenv
 from fb_ads_library_api import FbAdsLibraryTraversal
 from fb_ads_library_api_operators import get_operators, save_to_csv
 from fb_ads_library_api_utils import get_country_code, is_valid_fields
@@ -24,7 +25,6 @@ def argument_parser():
         "-t",
         "--access-token",
         help="The Facebook developer access token",
-        required=True,
     )
     parser.add_argument(
         "-f",
@@ -131,8 +131,16 @@ def git_root_directory():
 
 
 def main():
+    # get the access token from .env
+    load_dotenv()
+    access_token = os.getenv("ACCESS_TOKEN")
+
     parser = argument_parser()
     opts = parser.parse_args()
+
+    # if we didn't get an access token from env, check args
+    if not access_token:
+        access_token = opts.access_token
 
     if not opts.search_terms and not opts.search_page_ids:
         print("At least one must be set: --search-terms, --search-page-ids")
@@ -142,9 +150,7 @@ def main():
         search_terms = "."
     else:
         search_terms = opts.search_terms
-    api = FbAdsLibraryTraversal(
-        opts.access_token, opts.fields, search_terms, opts.country
-    )
+    api = FbAdsLibraryTraversal(access_token, opts.fields, search_terms, opts.country)
     if opts.search_page_ids:
         api.search_page_ids = opts.search_page_ids
     if opts.ad_active_status:

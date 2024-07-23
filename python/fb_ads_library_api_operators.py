@@ -68,9 +68,9 @@ def save_to_file(generator_ad_archives, args, output_path, is_verbose=False):
                 file.write("\n")
             count += len(ad_archives)
             if is_verbose:
-                print("Items wrote: %d" % count)
+                print("Items written: %d" % count)
 
-    print("Total number of ads wrote: %d" % count)
+    print("Total number of ads written: %d" % count)
 
 
 def save_to_csv(generator_ad_archives, args, output_path, fields, is_verbose=False):
