@@ -174,12 +174,12 @@ def main():
         os.makedirs(output_path)
 
     # get the ad archives data
-    generator_ad_archives = api.generate_ad_archives()
+    ad_archives_generator = api.generate_ad_archives()
 
     if opts.action in get_operators():
         if opts.action == "save_to_csv":
             save_to_csv(
-                generator_ad_archives,
+                ad_archives_generator,
                 opts.args,
                 output_path,
                 opts.fields,
@@ -187,7 +187,7 @@ def main():
             )
         else:
             get_operators()[opts.action](
-                generator_ad_archives, opts.args, output_path, is_verbose=opts.verbose
+                ad_archives_generator, opts.args, output_path, is_verbose=opts.verbose
             )
     else:
         print("Invalid 'action' value: %s" % opts.action)

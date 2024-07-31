@@ -16,7 +16,7 @@ def get_operators():
     """
     Feel free to add your own 'operator' here;
     The input will be:
-        generator_ad_archives: a generator of array of ad_archvie
+        ad_archives_generator: a generator of array of ad_archvie
         args: extra arguments passed in from CLI
         is_verbose: check this for debugging information
     """
@@ -36,19 +36,19 @@ def output_file_path(keyword, output_path, file_extension):
     return f"{output_path}/{output_filename}"
 
 
-def count_ads(generator_ad_archives, args, output_path, is_verbose=False):
+def count_ads(ad_archives_generator, args, output_path, is_verbose=False):
     """
     Count how many ad_archives match your query
     """
     count = 0
-    for ad_archives in generator_ad_archives:
+    for ad_archives in ad_archives_generator:
         count += len(ad_archives)
         if is_verbose:
             print("counting %d" % count)
     print(f"Total number of ads match the query: {count}")
 
 
-def save_to_file(generator_ad_archives, args, output_path, is_verbose=False):
+def save_to_file(ad_archives_generator, args, output_path, is_verbose=False):
     """
     Save all retrieved ad_archives to the file; each ad_archive will be
     stored in JSON format in a single line;
@@ -62,7 +62,7 @@ def save_to_file(generator_ad_archives, args, output_path, is_verbose=False):
 
     with open(output_path, "w+") as file:
         count = 0
-        for ad_archives in generator_ad_archives:
+        for ad_archives in ad_archives_generator:
             for data in ad_archives:
                 file.write(json.dumps(data))
                 file.write("\n")
@@ -73,7 +73,7 @@ def save_to_file(generator_ad_archives, args, output_path, is_verbose=False):
     print("Total number of ads written: %d" % count)
 
 
-def save_to_csv(generator_ad_archives, args, output_path, fields, is_verbose=False):
+def save_to_csv(ad_archives_generator, args, output_path, fields, is_verbose=False):
     """
     Save all retrieved ad_archives to the output file. Each ad_archive will be
     stored as a row in the CSV
@@ -89,7 +89,7 @@ def save_to_csv(generator_ad_archives, args, output_path, fields, is_verbose=Fal
 
     output_path = output_file_path(args[0], output_path, ".csv")
 
-    for ad_archives in generator_ad_archives:
+    for ad_archives in ad_archives_generator:
         total_count += len(ad_archives)
         if is_verbose:
             print("Items processed: %d" % total_count)
@@ -116,7 +116,7 @@ def save_to_csv(generator_ad_archives, args, output_path, fields, is_verbose=Fal
     print("Successfully wrote data to file: %s" % output_path)
 
 
-def count_start_time_trending(generator_ad_archives, args, output_path, is_verbose=False):
+def count_start_time_trending(ad_archives_generator, args, output_path, is_verbose=False):
     """
     output the count trending of ads by start date;
     Accept one parameter:
@@ -129,7 +129,7 @@ def count_start_time_trending(generator_ad_archives, args, output_path, is_verbo
 
     total_count = 0
     date_to_count = Counter({})
-    for ad_archives in generator_ad_archives:
+    for ad_archives in ad_archives_generator:
         total_count += len(ad_archives)
         if is_verbose:
             print("Item processed: %d" % total_count)
