@@ -38,7 +38,7 @@ def argument_parser():
         "-c",
         "--country",
         default="US",
-        help="Country code, comma-separated, no spaces",
+        help="Country code(s), comma-separated, no spaces",
         required=True,
         type=validate_country_param,
     )

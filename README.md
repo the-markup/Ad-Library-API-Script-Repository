@@ -86,7 +86,7 @@ options:
   -s SEARCH_TERMS, --search-terms SEARCH_TERMS
                         The terms you want to search for, space-separated
   -c COUNTRY, --country COUNTRY
-                        Country code, comma-separated, no spaces
+                        Country code(s), comma-separated, no spaces
   --search-page-ids SEARCH_PAGE_IDS
                         A specific Facebook Page you want to search
   --ad-active-status AD_ACTIVE_STATUS
