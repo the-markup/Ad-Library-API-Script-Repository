@@ -1,0 +1,6 @@
+*.csv
+.DS_Store
+.env
+__pycache__
+pyrightconfig.json
+venv

@@ -9,6 +9,7 @@
 import json
 import re
 from datetime import datetime
+from json.decoder import JSONDecodeError
 
 import requests
 
@@ -21,35 +22,46 @@ def get_ad_archive_id(data):
 
 
 class FbAdsLibraryTraversal:
-    default_url_pattern = (
-        "https://graph.facebook.com/{}/ads_archive?access_token={}&"
-        + "fields={}&search_terms={}&ad_reached_countries={}&search_page_ids={}&"
-        + "ad_active_status={}&limit={}"
-    )
-    default_api_version = "v14.0"
+    default_url_parameters = [
+        "access_token",
+        "ad_active_status",
+        "ad_reached_countries",
+        "ad_type",
+        "fields",
+        "limit",
+        "media_type",
+        "search_page_ids",
+        "search_terms",
+    ]
+    default_url_pattern = "https://graph.facebook.com/{}/ads_archive?"
+    default_api_version = "v20.0"
 
     def __init__(
         self,
         access_token,
         fields,
-        search_term,
-        country,
+        search_terms,
+        ad_reached_countries,
+        ad_type="ALL",
+        media_type="ALL",
         search_page_ids="",
         ad_active_status="ALL",
         after_date="1970-01-01",
-        page_limit=500,
+        limit=250,
         api_version=None,
         retry_limit=3,
     ):
         self.page_count = 0
         self.access_token = access_token
         self.fields = fields
-        self.search_term = search_term
-        self.country = country
+        self.search_terms = search_terms
+        self.ad_reached_countries = ad_reached_countries
+        self.ad_type = ad_type
+        self.media_type = media_type
         self.after_date = after_date
         self.search_page_ids = search_page_ids
         self.ad_active_status = ad_active_status
-        self.page_limit = page_limit
+        self.limit = limit
         self.retry_limit = retry_limit
         if api_version is None:
             self.api_version = self.default_api_version
@@ -57,16 +69,17 @@ class FbAdsLibraryTraversal:
             self.api_version = api_version
 
     def generate_ad_archives(self):
-        next_page_url = self.default_url_pattern.format(
-            self.api_version,
-            self.access_token,
-            self.fields,
-            self.search_term,
-            self.country,
-            self.search_page_ids,
-            self.ad_active_status,
-            self.page_limit,
-        )
+        # construct the URL
+        next_page_url = self.default_url_pattern.format(self.api_version)
+        params_to_add = []
+
+        for param in self.default_url_parameters:
+            param_value = getattr(self, param)
+            if param_value:
+                params_to_add.append(f"{param}={param_value}")
+
+        next_page_url += "&".join(params_to_add)
+
         return self.__class__._get_ad_archives_from_url(
             next_page_url, after_date=self.after_date, retry_limit=self.retry_limit
         )
@@ -75,13 +88,32 @@ class FbAdsLibraryTraversal:
     def _get_ad_archives_from_url(
         next_page_url, after_date="1970-01-01", retry_limit=3
     ):
+        rate_limit_headers = [
+            "x-ad-account-usage",
+            "x-app-usage",
+            "x-business-use-case-usage",
+        ]
         last_error_url = None
         last_retry_count = 0
         start_time_cutoff_after = datetime.strptime(after_date, "%Y-%m-%d").timestamp()
 
         while next_page_url is not None:
+            print(">> requesting page at " + next_page_url)
             response = requests.get(next_page_url)
             response_data = json.loads(response.text)
+            print(">> got response!")
+
+            # get rate limiting details from headers
+            for header in rate_limit_headers:
+                usage = response.headers.get(header)
+                if usage:
+                    try:
+                        print(f">> {header}")
+                        print(json.loads(usage))
+                    except JSONDecodeError as err:
+                        print(">> error trying to get rate limit details from headers!")
+                        print(err)
+
             if "error" in response_data:
                 if next_page_url == last_error_url:
                     # failed again
