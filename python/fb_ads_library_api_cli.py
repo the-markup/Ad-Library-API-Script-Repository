@@ -27,26 +27,28 @@ def argument_parser():
     parser.add_argument(
         "-f",
         "--fields",
-        help="Fields to retrieve from the Ad Library API",
+        help="Fields to retrieve from the Ad Library API, comma-separated, no spaces",
         required=True,
         type=validate_fields_param,
     )
-    parser.add_argument("-s", "--search-terms", help="The terms you want to search for")
+    parser.add_argument(
+        "-s", "--search-terms", help="The terms you want to search for, space-separated"
+    )
     parser.add_argument(
         "-c",
         "--country",
         default="US",
-        help="Comma-separated country code (no spaces)",
+        help="Country code, comma-separated, no spaces",
         required=True,
         type=validate_country_param,
     )
     parser.add_argument(
-        "--search-page-ids", help="The specific Facebook Page you want to search"
+        "--search-page-ids", help="A specific Facebook Page you want to search"
     )
     parser.add_argument(
         "--ad-active-status",
         default="ALL",
-        help="Filter by the current status of the ads at the moment the script runs",
+        help="Filter by the current status of the ads at the moment the script runs, can be ALL (default), ACTIVE, INACTIVE",
     )
     parser.add_argument(
         "--ad-type",
@@ -59,7 +61,8 @@ def argument_parser():
         default="ALL",
     )
     parser.add_argument(
-        "--after-date", help="Only return ads that started delivery after this date"
+        "--after-date",
+        help="Only return ads that started delivery after this date, in the format YYYY-MM-DD",
     )
     parser.add_argument(
         "--batch-size",
@@ -70,7 +73,8 @@ def argument_parser():
     parser.add_argument(
         "--retry-limit",
         type=int,
-        help="When an error occurs, the script will abort if it fails to get the same batch this amount of times",
+        help="How many times to retry when an error occurs, default is 3",
+        default=3,
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     actions = ",".join(get_operators().keys())

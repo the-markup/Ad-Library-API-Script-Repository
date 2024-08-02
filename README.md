@@ -82,24 +82,25 @@ options:
   -t ACCESS_TOKEN, --access-token ACCESS_TOKEN
                         The Facebook developer access token
   -f FIELDS, --fields FIELDS
-                        Fields to retrieve from the Ad Library API
+                        Fields to retrieve from the Ad Library API, comma-separated, no spaces
   -s SEARCH_TERMS, --search-terms SEARCH_TERMS
-                        The terms you want to search for
+                        The terms you want to search for, space-separated
   -c COUNTRY, --country COUNTRY
-                        Comma-separated country code (no spaces)
+                        Country code, comma-separated, no spaces
   --search-page-ids SEARCH_PAGE_IDS
-                        The specific Facebook Page you want to search
+                        A specific Facebook Page you want to search
   --ad-active-status AD_ACTIVE_STATUS
-                        Filter by the current status of the ads at the moment the script runs
+                        Filter by the current status of the ads at the moment the script runs, can be ALL (default), ACTIVE, INACTIVE
   --ad-type AD_TYPE     Return this type of ad, can be ALL (default), CREDIT_ADS, EMPLOYMENT_ADS, HOUSING_ADS, POLITICAL_AND_ISSUE_ADS
   --media-type MEDIA_TYPE
                         Return ads that contain this type of media, can be ALL (default), IMAGE, MEME, VIDEO, NONE
   --after-date AFTER_DATE
-                        Only return ads that started delivery after this date
+                        Only return ads that started delivery after this date, in the format YYYY-MM-DD
   --batch-size BATCH_SIZE
                         Request records in batches of this size, default is 250
   --retry-limit RETRY_LIMIT
-                        When an error occurs, the script will abort if it fails to get the same batch this amount of times
+                        How many times to retry when an error occurs, default is 3
+  -v, --verbose
 ```
 
 ## How Ads-Library-API-Script-Repository works
