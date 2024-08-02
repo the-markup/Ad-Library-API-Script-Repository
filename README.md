@@ -97,7 +97,7 @@ options:
   --after-date AFTER_DATE
                         Only return ads that started delivery after this date
   --batch-size BATCH_SIZE
-                        Batch size
+                        Request records in batches of this size, default is 250
   --retry-limit RETRY_LIMIT
                         When an error occurs, the script will abort if it fails to get the same batch this amount of times
 ```

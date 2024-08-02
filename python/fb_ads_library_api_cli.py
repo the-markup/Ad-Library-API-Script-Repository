@@ -63,7 +63,12 @@ def argument_parser():
     parser.add_argument(
         "--after-date", help="Only return ads that started delivery after this date"
     )
-    parser.add_argument("--batch-size", type=int, help="Batch size")
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        help="Request records in batches of this size, default is 250",
+        default=250,
+    )
     parser.add_argument(
         "--retry-limit",
         type=int,

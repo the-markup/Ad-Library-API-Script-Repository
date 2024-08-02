@@ -47,7 +47,7 @@ class FbAdsLibraryTraversal:
         search_page_ids="",
         ad_active_status="ALL",
         after_date="1970-01-01",
-        limit=500,
+        limit=250,
         api_version=None,
         retry_limit=3,
     ):
