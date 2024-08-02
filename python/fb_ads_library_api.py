@@ -88,6 +88,11 @@ class FbAdsLibraryTraversal:
     def _get_ad_archives_from_url(
         next_page_url, after_date="1970-01-01", retry_limit=3
     ):
+        rate_limit_headers = [
+            "x-ad-account-usage",
+            "x-app-usage",
+            "x-business-use-case-usage",
+        ]
         last_error_url = None
         last_retry_count = 0
         start_time_cutoff_after = datetime.strptime(after_date, "%Y-%m-%d").timestamp()
@@ -99,13 +104,15 @@ class FbAdsLibraryTraversal:
             print(">> got response!")
 
             # get rate limiting details from headers
-            usage = response.headers.get("x-business-use-case-usage")
-            if usage:
-                try:
-                    print(json.loads(usage))
-                except JSONDecodeError as err:
-                    print(">> error trying to get rate limit details from headers!")
-                    print(err)
+            for header in rate_limit_headers:
+                usage = response.headers.get(header)
+                if usage:
+                    try:
+                        print(f">> {header}")
+                        print(json.loads(usage))
+                    except JSONDecodeError as err:
+                        print(">> error trying to get rate limit details from headers!")
+                        print(err)
 
             if "error" in response_data:
                 if next_page_url == last_error_url:
