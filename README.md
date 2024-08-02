@@ -1,5 +1,5 @@
 # Ads-Library-API-Script-Repository
-Ads-Library-API-Script-Repository is a set of code examples to help user/researchers understand how the Facebook Ads Library API works. It also provides a simple command-line interface(CLI) for users to easily use the Facebook Ads Library API.
+Ads-Library-API-Script-Repository is a set of code examples to help user/researchers understand how the Meta Ad Library API works. It also provides a simple command-line interface(CLI) for users to easily use the Meta Ad Library API.
 
 ## Setup
 
@@ -36,7 +36,7 @@ python3 -m pip install -r requirements.txt
 
 ## Usage
 
-To use these scripts to access the Meta Ad Library API, you must have a Facebook developer account, which will require you to confirm your identity (by uploading identifying documents such as a drivers license or passport) and mailing address (by entering a code that Meta sends you in the physical mail.)
+To use these scripts to access the [Meta Ad Library API](https://www.facebook.com/ads/library/api), you must have a Facebook developer account, which will require you to confirm your identity (by uploading identifying documents such as a drivers license or passport) and mailing address (by entering a code that Meta sends you in the physical mail.)
 
 Once those details are confirmed, you can create a new app (an app of type "Business" will work) which will allow you to generate an access token. That token is required by these scripts to authenticate with the API. The access token can be found on the [Graph API Explorer](https://developers.facebook.com/tools/explorer/) or the [Access Token Tool](https://developers.facebook.com/tools/accesstoken/), where it's described as the "User Token".
 
@@ -71,7 +71,7 @@ python3 python/fb_ads_library_api_cli.py --help
 ```
 
 ```
-The Facebook Ads Library API CLI Utility
+The Meta Ad Library API CLI Utility
 
 positional arguments:
   action                Action to take on the ads, possible values: count,save,save_to_csv,start_time_trending
@@ -103,10 +103,10 @@ options:
 ```
 
 ## How Ads-Library-API-Script-Repository works
-The script will query the [Facebook Ads library API](https://www.facebook.com/ads/library/api) to get all the Ads Library information on the Facebook platform;
+The script will query the [Meta Ad Library API](https://www.facebook.com/ads/library/api) to get all the Ad Library information on the Facebook platform;
 
 
-## More about Facebook Ads Library
+## More about Meta Ad Library
 * Website: https://www.facebook.com/ads/library
 * Report: https://www.facebook.com/ads/library/report
 * API: https://www.facebook.com/ads/library/api

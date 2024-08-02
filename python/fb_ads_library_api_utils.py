@@ -89,7 +89,7 @@ def get_country_code(country_str):
 
 def is_valid_fields(field):
     """
-    The Facebook Ads Library API has a list of supported fields
+    The Meta Ad Library API has a list of supported fields
     """
     global valid_query_fields
     return field in valid_query_fields

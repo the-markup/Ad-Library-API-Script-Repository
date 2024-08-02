@@ -18,9 +18,7 @@ from fb_ads_library_api_utils import get_country_code, is_valid_fields
 
 
 def argument_parser():
-    parser = argparse.ArgumentParser(
-        description="The Facebook Ads Library API CLI Utility"
-    )
+    parser = argparse.ArgumentParser(description="The Meta Ad Library API CLI Utility")
     parser.add_argument(
         "-t",
         "--access-token",
