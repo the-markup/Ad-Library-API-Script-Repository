@@ -65,6 +65,10 @@ def argument_parser():
         help="Only return ads that started delivery after this date, in the format YYYY-MM-DD",
     )
     parser.add_argument(
+        "--after-page-token",
+        help="Restart a previous session by passing the 'after' token included in the paging section of the reponse",
+    )
+    parser.add_argument(
         "--batch-size",
         type=int,
         help="Request records in batches of this size, default is 250",
@@ -172,6 +176,8 @@ def main():
         api.retry_limit = opts.retry_limit
     if opts.after_date:
         api.after_date = opts.after_date
+    if opts.after_page_token:
+        api.after = opts.after_page_token
 
     # where to save data
     root_directory = git_root_directory()

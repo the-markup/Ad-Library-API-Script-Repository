@@ -27,6 +27,7 @@ class FbAdsLibraryTraversal:
         "ad_active_status",
         "ad_reached_countries",
         "ad_type",
+        "after",
         "fields",
         "limit",
         "media_type",
@@ -47,6 +48,7 @@ class FbAdsLibraryTraversal:
         search_page_ids="",
         ad_active_status="ALL",
         after_date="1970-01-01",
+        after=None,
         limit=250,
         api_version=None,
         retry_limit=3,
@@ -59,6 +61,7 @@ class FbAdsLibraryTraversal:
         self.ad_type = ad_type
         self.media_type = media_type
         self.after_date = after_date
+        self.after = after
         self.search_page_ids = search_page_ids
         self.ad_active_status = ad_active_status
         self.limit = limit
@@ -141,6 +144,7 @@ class FbAdsLibraryTraversal:
                     response_data["data"],
                 )
             )
+
             if len(filtered) == 0:
                 # if no data after the after_date, break
                 next_page_url = None
