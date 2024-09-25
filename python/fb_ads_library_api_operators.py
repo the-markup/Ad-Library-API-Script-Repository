@@ -17,7 +17,7 @@ def get_operators():
     """
     Feel free to add your own 'operator' here;
     The input will be:
-        ad_archives_generator: a generator of array of ad_archvie
+        ad_archives_generator: a generator of an array of ad_archives
         args: extra arguments passed in from CLI
         is_verbose: check this for debugging information
     """
@@ -38,7 +38,7 @@ def output_file_path(keyword, output_path, file_extension):
     return f"{output_path}/{output_filename}"
 
 
-def count_ads(ad_archives_generator, args, output_path, is_verbose=False):
+def count_ads(ad_archives_generator, _args, _output_path, is_verbose=False):
     """
     Count how many ad_archives match your query
     """

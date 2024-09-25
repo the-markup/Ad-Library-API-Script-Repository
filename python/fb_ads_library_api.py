@@ -7,18 +7,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import re
 from datetime import datetime
 from json.decoder import JSONDecodeError
 
 import requests
-
-
-def get_ad_archive_id(data):
-    """
-    Extract ad_archive_id from ad_snapshot_url
-    """
-    return re.search(r"/\?id=([0-9]+)", data["ad_snapshot_url"]).group(1)
 
 
 class FbAdsLibraryTraversal:
@@ -91,6 +83,8 @@ class FbAdsLibraryTraversal:
     def _get_ad_archives_from_url(
         next_page_url, after_date="1970-01-01", retry_limit=3
     ):
+        # rate limit information may be stored in header parameters with any of these names
+        # see: https://developers.facebook.com/docs/graph-api/overview/rate-limiting/
         rate_limit_headers = [
             "x-ad-account-usage",
             "x-app-usage",
