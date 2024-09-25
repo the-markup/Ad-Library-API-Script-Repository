@@ -112,8 +112,8 @@ options:
                         Return ads that contain this type of media, can be ALL (default), IMAGE, MEME, VIDEO, NONE
   --after-date AFTER_DATE
                         Only return ads that started delivery after this date, in the format YYYY-MM-DD
-  --after-page-token AFTER_PAGE_TOKEN
-                        Restart a previous session by passing the 'after' token included in the paging section of the response
+  --after-page-cursor AFTER_PAGE_CURSOR
+                        Restart a previous session by passing the 'after' cursor included in the paging section of the response
   --batch-size BATCH_SIZE
                         Request records in batches of this size, default is 250
   --retry-limit RETRY_LIMIT
