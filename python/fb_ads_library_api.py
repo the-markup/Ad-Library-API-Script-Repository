@@ -7,18 +7,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import re
 from datetime import datetime
 from json.decoder import JSONDecodeError
 
 import requests
-
-
-def get_ad_archive_id(data):
-    """
-    Extract ad_archive_id from ad_snapshot_url
-    """
-    return re.search(r"/\?id=([0-9]+)", data["ad_snapshot_url"]).group(1)
 
 
 class FbAdsLibraryTraversal:
