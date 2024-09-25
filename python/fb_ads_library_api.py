@@ -83,6 +83,8 @@ class FbAdsLibraryTraversal:
     def _get_ad_archives_from_url(
         next_page_url, after_date="1970-01-01", retry_limit=3
     ):
+        # rate limit information may be stored in header parameters with any of these names
+        # see: https://developers.facebook.com/docs/graph-api/overview/rate-limiting/
         rate_limit_headers = [
             "x-ad-account-usage",
             "x-app-usage",
