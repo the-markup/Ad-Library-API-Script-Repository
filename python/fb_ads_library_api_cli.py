@@ -43,7 +43,7 @@ def argument_parser():
         type=validate_country_param,
     )
     parser.add_argument(
-        "--search-page-ids", help="A specific Facebook Page you want to search"
+        "--search-page-ids", help="IDs for specific Facebook pages you want to search for ads from, comma-separated, no spaces"
     )
     parser.add_argument(
         "--ad-active-status",
@@ -66,7 +66,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--after-page-token",
-        help="Restart a previous session by passing the 'after' token included in the paging section of the reponse",
+        help="Restart a previous session by passing the 'after' token included in the paging section of the response",
     )
     parser.add_argument(
         "--batch-size",

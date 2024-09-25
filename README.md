@@ -88,7 +88,7 @@ options:
   -c COUNTRY, --country COUNTRY
                         Country code(s), comma-separated, no spaces
   --search-page-ids SEARCH_PAGE_IDS
-                        A specific Facebook Page you want to search
+                        IDs for specific Facebook pages you want to search for ads from, comma-separated, no spaces
   --ad-active-status AD_ACTIVE_STATUS
                         Filter by the current status of the ads at the moment the script runs, can be ALL (default), ACTIVE, INACTIVE
   --ad-type AD_TYPE     Return this type of ad, can be ALL (default), CREDIT_ADS, EMPLOYMENT_ADS, HOUSING_ADS, POLITICAL_AND_ISSUE_ADS
@@ -96,6 +96,8 @@ options:
                         Return ads that contain this type of media, can be ALL (default), IMAGE, MEME, VIDEO, NONE
   --after-date AFTER_DATE
                         Only return ads that started delivery after this date, in the format YYYY-MM-DD
+  --after-page-token AFTER_PAGE_TOKEN
+                        Restart a previous session by passing the 'after' token included in the paging section of the response
   --batch-size BATCH_SIZE
                         Request records in batches of this size, default is 250
   --retry-limit RETRY_LIMIT
