@@ -1,6 +1,22 @@
 # Ads-Library-API-Script-Repository
 Ads-Library-API-Script-Repository is a set of code examples to help user/researchers understand how the Meta Ad Library API works. It also provides a simple command-line interface(CLI) for users to easily use the Meta Ad Library API.
 
+## Changes made in this fork
+
+The Markup forked this repo and made the following changes to support our work on investigations:
+
+* The default [Graph API](https://developers.facebook.com/docs/graph-api) version is updated from v14.0 to v20.0 (the current version as of September 2024)
+* Valid query fields are updated to be in line with [current documentation](https://developers.facebook.com/docs/graph-api/reference/archived-ad/), and some parameters and variables are renamed to reflect those updates
+* You may set `ad_type` and `media_type` ([documented here](https://www.facebook.com/ads/library/api/)) on queries from the command line (both default to "ALL")
+* The script can optionally read your access token from a `.env` file, so you don't have to pass it every time you invoke the script
+* You can resume interrupted queries by passing [an `after` cursor](https://developers.facebook.com/docs/graph-api/results/) to the script
+* [Headers with rate limit information](https://developers.facebook.com/docs/graph-api/overview/rate-limiting/) are displayed as the script runs, so you can monitor usage
+* CSV files are
+  * written as data is received, instead of waiting until we have all the data
+  * written using Python's `csv` library, to reduce formatting errors
+  * timestamped and saved in a new `output` directory
+* New setup and usage instructions are included in this README
+
 ## Setup
 
 ### Make sure you have Python 3 installed
