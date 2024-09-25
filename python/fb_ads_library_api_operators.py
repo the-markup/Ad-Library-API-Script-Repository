@@ -38,7 +38,7 @@ def output_file_path(keyword, output_path, file_extension):
     return f"{output_path}/{output_filename}"
 
 
-def count_ads(ad_archives_generator, args, output_path, is_verbose=False):
+def count_ads(ad_archives_generator, _args, _output_path, is_verbose=False):
     """
     Count how many ad_archives match your query
     """
